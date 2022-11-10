@@ -43,8 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
     List<Product> products = [];
 
     for (var p in jsonData["products"]) {
-      Product product =
-          Product(p["id"], p["title"], p["description"], p["thumbnail"]);
+      Product product = Product(
+          p["id"], p["title"], p["description"], p["category"], p["thumbnail"]);
       products.add(product);
     }
     print(products.length);
@@ -152,7 +152,7 @@ class cardProduct extends StatelessWidget {
                 height: 10,
               ), //SizedBox
               Text(
-                p.description,
+                p.category,
                 style: TextStyle(
                   fontSize: 15,
                   color: Colors.green,
@@ -171,7 +171,7 @@ class cardProduct extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(4),
                     child: Row(
-                      children: const [Icon(Icons.touch_app), Text('Visit')],
+                      children: const [Icon(Icons.touch_app), Text('Click')],
                     ),
                   ),
                 ),

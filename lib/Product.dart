@@ -4,9 +4,11 @@ class Product {
   final int id;
   final String title;
   final String description;
+  final String category;
+
   final String thumbnail;
 
-  Product(this.id, this.title, this.description, this.thumbnail);
+  Product(this.id, this.title, this.description, this.category, this.thumbnail);
   // const Product(
   //     {required this.id, required this.title, required this.description});
 
