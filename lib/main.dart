@@ -17,9 +17,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightBlue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Online Shopping'),
     );
   }
 }
@@ -34,8 +34,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
   Future getProductsData() async {
     var response = await http.get(Uri.https("dummyjson.com", "products"));
 
@@ -47,18 +45,14 @@ class _MyHomePageState extends State<MyHomePage> {
           p["id"], p["title"], p["description"], p["category"], p["thumbnail"]);
       products.add(product);
     }
-    print(products.length);
+    // print(products.length);
     return products;
   }
 
   @override
   void initState() {}
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  void _incrementCounter() {}
 
   @override
   Widget build(BuildContext context) {
@@ -66,28 +60,21 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Container(
-          child: Card(
+      body: Card(
         child: FutureBuilder(
           future: getProductsData(),
           builder: ((context, snapshot) {
             if (snapshot.data == null) {
-              return Container(
-                child: Center(
-                  child: Text('Loading...'),
-                ),
+              return const Center(
+                child: Text('Loading...'),
               );
             } else {
               return listView(snapshot.data);
             }
           }),
         ),
-      )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
@@ -115,13 +102,13 @@ class listView extends StatelessWidget {
 
 class cardProduct extends StatelessWidget {
   Product p;
-  cardProduct(this.p);
+  cardProduct(this.p, {super.key});
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 50,
       shadowColor: Colors.black,
-      color: Colors.greenAccent[100],
+      color: Color.fromRGBO(255, 239, 214, 10),
       child: SizedBox(
         width: 300,
         height: 500,
@@ -130,7 +117,7 @@ class cardProduct extends StatelessWidget {
           child: Column(
             children: [
               CircleAvatar(
-                backgroundColor: Colors.green[500],
+                backgroundColor: Color.fromRGBO(242, 222, 186, 10),
                 radius: 108,
                 child: CircleAvatar(
                   backgroundImage: NetworkImage(p.thumbnail), //NetworkImage
@@ -142,9 +129,10 @@ class cardProduct extends StatelessWidget {
               ), //SizedBox
               Text(
                 p.title,
+                // ignore: prefer_const_constructors
                 style: TextStyle(
                   fontSize: 30,
-                  color: Colors.green[900],
+                  color: Color.fromRGBO(14, 94, 111, 10),
                   fontWeight: FontWeight.w500,
                 ), //Textstyle
               ), //Text
@@ -152,46 +140,22 @@ class cardProduct extends StatelessWidget {
                 height: 10,
               ), //SizedBox
               Text(
-                p.category,
-                style: TextStyle(
+                "Category : ${p.category}",
+                style: const TextStyle(
                   fontSize: 15,
-                  color: Colors.green,
+                  color: Color.fromRGBO(58, 136, 145, 10),
                 ), //Textstyle
               ), //Text
               const SizedBox(
                 height: 10,
               ), //SizedBox
-              SizedBox(
-                width: 100,
-
-                child: ElevatedButton(
-                  onPressed: () => 'Null',
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.green)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Row(
-                      children: const [Icon(Icons.touch_app), Text('Click')],
-                    ),
-                  ),
-                ),
-                // RaisedButton is deprecated and should not be used
-                // Use ElevatedButton instead
-
-                // child: RaisedButton(
-                //   onPressed: () => null,
-                //   color: Colors.green,
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(4.0),
-                //     child: Row(
-                //       children: const [
-                //         Icon(Icons.touch_app),
-                //         Text('Visit'),
-                //       ],
-                //     ), //Row
-                //   ), //Padding
-                // ), //RaisedButton
-              ) //SizedBox
+              Text(
+                "Description : ${p.description}",
+                style: const TextStyle(
+                  fontSize: 15,
+                  color: Color.fromRGBO(58, 136, 145, 10),
+                ), //Textstyle
+              ), //SizedBox
             ],
           ), //Column
         ), //Padding
@@ -199,3 +163,123 @@ class cardProduct extends StatelessWidget {
     );
   }
 }
+
+// class ProductDetails extends StatelessWidget {
+//   Product p;
+//   ProductDetails(this.p);
+//   @override
+//   Widget build(BuildContext context) {
+//     return (MaterialApp(
+//         debugShowCheckedModeBanner: false,
+//         home: Scaffold(
+//             appBar: AppBar(
+//               actions: <Widget>[
+//                 IconButton(
+//                   icon: const Icon(Icons.home),
+//                   onPressed: (() => Navigator.pop(context)),
+//                 ),
+//               ],
+//               title: const Text("Product details"),
+//             ),
+//             body: Card(
+//               elevation: 50,
+//               shadowColor: Colors.black,
+//               color: Colors.greenAccent[100],
+//               child: SizedBox(
+//                 width: 300,
+//                 height: 500,
+//                 child: Padding(
+//                   padding: const EdgeInsets.all(20.0),
+//                   child: Column(
+//                     children: [
+//                       CircleAvatar(
+//                         backgroundColor: Colors.green[500],
+//                         radius: 108,
+//                         child: CircleAvatar(
+//                           backgroundImage:
+//                               NetworkImage(p.thumbnail), //NetworkImage
+//                           radius: 100,
+//                         ), //CircleAvatar
+//                       ), //CircleAvatar
+//                       const SizedBox(
+//                         height: 10,
+//                       ), //SizedBox
+//                       Text(
+//                         p.title,
+//                         style: TextStyle(
+//                           fontSize: 30,
+//                           color: Colors.green[900],
+//                           fontWeight: FontWeight.w500,
+//                         ), //Textstyle
+//                       ), //Text
+//                       const SizedBox(
+//                         height: 30,
+//                       ), //SizedBox
+//                       Text(
+//                         p.description,
+//                         style: TextStyle(
+//                           fontSize: 30,
+//                           color: Colors.green[900],
+//                           fontWeight: FontWeight.w500,
+//                         ), //Textstyle
+//                       ), //Text
+//                       const SizedBox(
+//                         height: 10,
+//                       ), //SizedBox
+//                       Text(
+//                         p.category,
+//                         style: TextStyle(
+//                           fontSize: 15,
+//                           color: Colors.green,
+//                         ),
+//                         //Textstyle
+//                       ),
+//                       //Text
+//                       const SizedBox(
+//                         height: 10,
+//                       ), //SizedBox
+//                       SizedBox(
+//                         width: 100,
+
+//                         child: ElevatedButton(
+//                           onPressed: () => Navigator.push(
+//                               context,
+//                               MaterialPageRoute(
+//                                   builder: (context) => ProductDetails(p))),
+//                           style: ButtonStyle(
+//                               backgroundColor:
+//                                   MaterialStateProperty.all(Colors.green)),
+//                           child: Padding(
+//                             padding: const EdgeInsets.all(4),
+//                             child: Row(
+//                               children: const [
+//                                 Icon(Icons.touch_app),
+//                                 Text('Click')
+//                               ],
+//                             ),
+//                           ),
+//                         ),
+//                         // RaisedButton is deprecated and should not be used
+//                         // Use ElevatedButton instead
+
+//                         // child: RaisedButton(
+//                         //   onPressed: () => null,
+//                         //   color: Colors.green,
+//                         //   child: Padding(
+//                         //     padding: const EdgeInsets.all(4.0),
+//                         //     child: Row(
+//                         //       children: const [
+//                         //         Icon(Icons.touch_app),
+//                         //         Text('Visit'),
+//                         //       ],
+//                         //     ), //Row
+//                         //   ), //Padding
+//                         // ), //RaisedButton
+//                       ) //SizedBox
+//                     ],
+//                   ), //Column
+//                 ), //Padding
+//               ), //SizedBox
+//             ))));
+//   }
+// }
